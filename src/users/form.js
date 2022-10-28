@@ -1,45 +1,33 @@
 import React, { useEffect, useState } from 'react';
-import { QueryClient, QueryClientProvider, useQuery } from 'react-query';
 import PopUp from '../components/Popup/Popup';
 import Table from '../components/Table/Table';
 import axios from "axios";
 import "./form.css";
 
-const queryClient = new QueryClient()
-
 export default function Form() {
-    return (
-        <QueryClientProvider client={queryClient}>
-            <Users />
-        </QueryClientProvider>
-    )
-}
 
-function Users() {
     const [openUserDetails, setOpenUserDetails] = useState(false);
     const [loading, setLoading] = useState(false);
-    const [dataList, setDataList] = useState([]);
+    const [loadingPage, setLoadingPage] = useState(false);
     const [userData, setUserData] = useState([]);
     const [userEditData, setUserEditData] = useState([]);
     const [userAddData, setUserAddData] = useState([]);
     const [userInput, setUserInput] = useState({});
     const [addUser, setAddUser] = useState(false);
-
-    const { isLoading, error, data } = useQuery('repoData', () =>
-        fetch('https://63581241c27556d289368088.mockapi.io/api/v1/users').then(res =>
-            res.json()
-        )
-    )
-
-    if (isLoading) return 'Loading...'
-    if (error) return 'An error has occurred: ' + error.message;
+    const [data, setData] = useState([]);
 
     const getData = () => {
         axios.get("https://63581241c27556d289368088.mockapi.io/api/v1/users").then(res => {
+            setLoadingPage(false)
             const personData = res.data;
-            setDataList(personData)
+            setData(personData)
         })
+        setLoadingPage(true)
     }
+    useEffect(() => {
+        setLoadingPage(true)
+        getData();
+    }, [userEditData])
 
     const userDetailClicked = (id) => {
         setOpenUserDetails(true)
@@ -55,25 +43,26 @@ function Users() {
     const userEditClicked = (id) => {
         axios.put(`https://63581241c27556d289368088.mockapi.io/api/v1/users/${id}`, userInput)
             .then(res => {
+                setLoadingPage(true)
                 const personEdit = res.data;
                 setUserEditData(personEdit);
             })
         setOpenUserDetails(false);
-        getData();
     };
 
     const userAddClicked = () => {
         axios.post('https://63581241c27556d289368088.mockapi.io/api/v1/users', userInput, {
             headers: {
-              "Content-Type": "application/json",
+                "Content-Type": "application/json",
             },
-          })
+        })
             .then(response => {
                 const personAdd = response;
                 setUserAddData(personAdd);
             })
         setOpenUserDetails(false);
         getData();
+        setAddUser(false)
     };
 
     let TableHeaderList = [
@@ -82,6 +71,8 @@ function Users() {
         { headerTitle: "city" },
         { headerTitle: "address" },
     ]
+
+    if (loadingPage) return 'Loading...'
 
     return (
         <React.Fragment>
@@ -148,7 +139,9 @@ function Users() {
                             )}
                     </div>
                     <div className="button-wrapper">
-                        <button className="cancel-button" onClick={() => setOpenUserDetails(false)}>Cancel</button>
+                        <button className="cancel-button" onClick={() => {
+                            setOpenUserDetails(false); setAddUser(false)
+                        }}>Cancel</button>
                         <button className="edit-button" onClick={() =>
                             addUser ? userAddClicked() : userEditClicked(userData?.id)}>
                             {addUser ? "Add" : "Edit"}
