@@ -1,0 +1,64 @@
+.user-wrapper {
+    color: #000000;
+    padding: 4px 16px;
+}
+
+.user-item-wrapper {
+    display: flex;
+    flex-direction: column;
+    margin: 4px;
+
+}
+
+.user-item-wrapper input {
+    padding: 6px;
+    border: 1px solid #e5e5e5;
+    border-radius: 4px;
+    outline: none;
+    width: 70%;
+}
+
+.user-item {
+    margin: 8px;
+    display: flex;
+    align-items: center;
+}
+
+.user-item div {
+    width: 30%;
+    font-weight: bold;
+    color: #9b9b9b;
+}
+
+.date-item {
+    color: #b8b8b8;
+    font-size: 12px;
+    text-align: end;
+    padding: 8px;
+}
+
+.button-wrapper {
+    text-align: end;
+}
+
+.cancel-button {
+    background-color: #fff;
+    color: #e08ec7;
+    border: 1px solid #e08ec7;
+    padding: 4px 16px;
+    margin: 8px 4px;
+    border-radius: 4px;
+    width: 84px;
+    cursor: pointer;
+}
+
+.edit-button {
+    background-color: #2dacda;
+    color: #fff;
+    border: 1px solid #2dacda;
+    padding: 4px 16px;
+    margin: 8px 4px;
+    border-radius: 4px;
+    width: 84px;
+    cursor: pointer;
+}
