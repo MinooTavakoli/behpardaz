@@ -27,7 +27,7 @@ export default function Form() {
     useEffect(() => {
         setLoadingPage(true)
         getData();
-    }, [userEditData])
+    }, [userEditData,userAddData])
 
     const userDetailClicked = (id) => {
         setOpenUserDetails(true)
@@ -68,6 +68,7 @@ export default function Form() {
     let TableHeaderList = [
         { headerTitle: "#" },
         { headerTitle: "First Name" },
+        { headerTitle: "Last Name" },
         { headerTitle: "city" },
         { headerTitle: "address" },
     ]

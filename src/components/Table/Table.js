@@ -32,6 +32,9 @@ export default function Table({ TableHeaderList = [], data = [], userDetailClick
                                     {user.firstName}
                                 </td>
                                 <td>
+                                    {user.lastName}
+                                </td>
+                                <td>
                                     {user.city}
                                 </td>
                                 <td>
